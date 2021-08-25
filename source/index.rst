@@ -11,7 +11,7 @@
    :caption: 目录
 
    introduction
-   CFD
+   控制方程
    有限元
    电磁场
 

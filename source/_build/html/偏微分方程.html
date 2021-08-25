@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>CFD &mdash; 数值模拟笔记 1.0 文档</title>
+  <title>偏微分方程 &mdash; 数值模拟笔记 1.0 文档</title>
   
 
   
@@ -41,7 +41,9 @@
 
     
     <link rel="index" title="索引" href="genindex.html" />
-    <link rel="search" title="搜索" href="search.html" /> 
+    <link rel="search" title="搜索" href="search.html" />
+    <link rel="next" title="有限元" href="%E6%9C%89%E9%99%90%E5%85%83.html" />
+    <link rel="prev" title="概述" href="introduction.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -87,8 +89,14 @@
             
             
               <p class="caption" role="heading"><span class="caption-text">目录</span></p>
-<ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="introduction.html">概述</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">偏微分方程</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#navier-stokes">Navier-Stokes方程</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id2">结构力学方程</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#maxwell">Maxwell方程</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="%E6%9C%89%E9%99%90%E5%85%83.html">有限元</a></li>
 <li class="toctree-l1"><a class="reference internal" href="%E7%94%B5%E7%A3%81%E5%9C%BA.html">电磁场</a></li>
 </ul>
@@ -139,13 +147,13 @@
     
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
         
-      <li>CFD</li>
+      <li>偏微分方程</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
           
-            <a href="_sources/CFD.rst.txt" rel="nofollow"> 查看页面源码</a>
+            <a href="_sources/偏微分方程.rst.txt" rel="nofollow"> 查看页面源码</a>
           
         
       </li>
@@ -158,9 +166,11 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="cfd">
-<h1>CFD<a class="headerlink" href="#cfd" title="永久链接至标题">¶</a></h1>
-<p>NS方程</p>
+  <div class="section" id="id1">
+<h1>偏微分方程<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h1>
+<div class="section" id="navier-stokes">
+<h2>Navier-Stokes方程<a class="headerlink" href="#navier-stokes" title="永久链接至标题">¶</a></h2>
+<p>NS方程是流体运动的控制方程，形式如下：</p>
 <div class="math notranslate nohighlight">
 \[{\partial{} \over {\partial t}}\iiint_{\Omega}
 \mathbf{Q}\mathrm{d}\Omega+\iint_{\partial \Omega}
@@ -179,10 +189,62 @@
 \rho Vw+n_zp \\
 \rho VH
 \end{bmatrix}\end{split}\]</div>
+<p>粘性通量：</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\mathbf{F}_c=
+\begin{bmatrix}
+0 \\
+\tau_{xx}n_x+\tau_{xy}n_y+\tau_{xz}n_z \\
+\tau_{yx}n_x+\tau_{yy}n_y+\tau_{yz}n_z \\
+\tau_{zx}n_x+\tau_{zy}n_y+\tau_{zz}n_z \\
+\Theta_xn_x+\Theta_xn_y+\Theta_xn_z
+\end{bmatrix}\end{split}\]</div>
+<p>粘性应力张量：</p>
+<div class="math notranslate nohighlight">
+\[\tau_{ij}=\mu\left( \frac{\partial u_i} {\partial{ x_j}}
+ + \frac{\partial{u_j}}{\partial{ x_i}}\right)+\delta_{ij}\lambda\frac{\partial u_k} {\partial{ x_k}}\]</div>
 <p>其中:</p>
 <div class="math notranslate nohighlight">
 \[V={\mathbf{V}} \cdot {\mathbf{n}}\]</div>
 <p>为逆变速度。</p>
+</div>
+<div class="section" id="id2">
+<h2>结构力学方程<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h2>
+<p>平衡方程：</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{array}{l}
+\frac{\partial{\sigma_{x}}}{\partial x}+\frac{\partial{\tau_{xy}}}{\partial y}
++\frac{\partial{\tau_{xz}}}{\partial z}+f_x=0 \\
+\frac{\partial{\tau_{yx}}}{\partial x}+\frac{\partial{\sigma_{y}}}{\partial y}
++\frac{\partial{\tau_{yz}}}{\partial z}+f_y=0 \\
+\frac{\partial{\tau_{zx}}}{\partial x}+\frac{\partial{\tau_{zy}}}{\partial y}
++\frac{\partial{\sigma_{z}}}{\partial z}+f_z=0
+\end{array}\end{split}\]</div>
+<p>几何方程：</p>
+<div class="math notranslate nohighlight">
+\[\epsilon_{ij}=\frac{\partial u_i}{\partial x_j}+\frac{\partial u_j}{\partial x_i}\]</div>
+<p>物理方程：</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{array}{l}
+\epsilon_x=\frac{1}{E}\left[ \sigma_x-\mu \left( \sigma_y+\sigma_z \right)\right] \\
+\epsilon_y=\frac{1}{E}\left[ \sigma_y-\mu \left( \sigma_z+\sigma_x \right)\right] \\
+\epsilon_z=\frac{1}{E}\left[ \sigma_z-\mu \left( \sigma_x+\sigma_y \right)\right] \\
+\gamma_{xy}=\frac{2\left( 1+\mu \right)}{E}\tau_{xy} \\
+\gamma_{yz}=\frac{2\left( 1+\mu \right)}{E}\tau_{yz} \\
+\gamma_{zx}=\frac{2\left( 1+\mu \right)}{E}\tau_{zx} \\
+\end{array}\end{split}\]</div>
+</div>
+<div class="section" id="maxwell">
+<h2>Maxwell方程<a class="headerlink" href="#maxwell" title="永久链接至标题">¶</a></h2>
+<p>Maxwell方程是电磁场的控制方程：</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{array}{l}
+\frac{\partial{\mathbf{B}}}{\partial t}+\nabla \times {\mathbf E}=0 \\
+\frac{\partial{\mathbf{D}}}{\partial t}-\nabla \times {\mathbf H}=-\mathbf{J} \\
+\nabla \cdot {\mathbf{B}}=0 \\
+\nabla \cdot {\mathbf{D}}=\rho
+\end{array}\end{split}\]</div>
+</div>
 </div>
 
 
@@ -190,6 +252,10 @@
            
           </div>
           <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="%E6%9C%89%E9%99%90%E5%85%83.html" class="btn btn-neutral float-right" title="有限元" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="introduction.html" class="btn btn-neutral float-left" title="概述" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+    </div>
 
   <hr/>
 
